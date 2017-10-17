@@ -1,0 +1,51 @@
+{
+  "flowide.enabled": true,
+  "flow.enabled": true,
+  "javascript.validate.enable": false,
+  "php.validate.executablePath": "E:\\xampp\\php\\php.exe",
+  "editor.formatOnSave": true,
+  "prettier.trailingComma": "es5",
+  "prettier.singleQuote": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "Atom One Dark",
+  "editor.snippetSuggestions": "top",
+  "editor.tabSize": 2,
+  "editor.quickSuggestions": true,
+  "editor.wordBasedSuggestions": true,
+  "editor.parameterHints": true,
+  "files.autoSave": "off",
+  "eslint.autoFixOnSave": true,
+  "editor.tabCompletion": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/.idea": true,
+    "**/.vscode": true,
+    "**/yarn.lock": true,
+    "**/yarn-error.log": true,
+    "**/tmp": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/node_modules/**": true,
+    "**/tmp": true
+  },
+  "emmet.syntaxProfiles": {
+    "javascript": "jsx"
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/tmp": true,
+    "**/coverage": true,
+    "**/ios": true,
+    "**/android": true
+  },
+  "workbench.startupEditor": "newUntitledFile",
+  "editor.scrollBeyondLastLine": false,
+  "editor.smoothScrolling": true
+}
