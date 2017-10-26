@@ -93,3 +93,9 @@ endfunction
 
 " =========== CALL FUNCTIONS =========== 
 autocmd VimEnter * call ToggleNumber()
+
+
+" =========== PLUGINS =========== 
+if empty(glob("~/.vim/autoload/plug.vim"))
+    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+endif
