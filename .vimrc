@@ -171,7 +171,7 @@ if empty(glob("~/.vim/autoload/plug.vim"))
 endif
 
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/bundle')
 
 Plug 'scrooloose/nerdtree'                  " A tree explorer plugin for vim
 Plug 'sjl/gundo.vim'                        " Gundo.vim is Vim plugin to visualize your Vim undo tree.
@@ -180,8 +180,14 @@ Plug 'junegunn/goyo.vim'                    " Distraction free mode
 Plug 'itchyny/lightline.vim'                " A light and configurable statusline/tabline plugin for Vim
 Plug 'maxbrunsfeld/vim-yankstack'           " Maintains a history of previous yanks
 Plug 'tpope/vim-commentary'                 " Comment stuff
+Plug 'joshdick/onedark.vim'                 " Colorscheme
 
 call plug#end()
+
+" Install the colorscheme
+if empty(glob("~/.vim/autoload/onedark.vim"))
+    execute 'cp ~/.vim/bundle/onedark.vim/colors/onedark.vim ~/.vim/colors/onedark.vim && cp ~/.vim/bundle/onedark.vim/autoload/onedark.vim ~/.vim/autoload/onedark.vim'
+endif
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
