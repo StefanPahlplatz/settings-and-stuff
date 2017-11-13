@@ -6,5 +6,5 @@
 ## Automated installation
 
 ```
-$ wget -O - http://dl.dropbox.com/u/11210438/flockonus-stack.sh | bash
+$ wget -O - https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/install.sh | bash
 ```
