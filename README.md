@@ -6,5 +6,8 @@
 ## Automated installation
 
 ```
-$ wget -O - https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/install.sh | bash
+
+wget -O install.sh https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/install.sh
+chmod +x install.sh
+./install.sh
 ```
