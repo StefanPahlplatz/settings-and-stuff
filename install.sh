@@ -15,19 +15,19 @@ Whi='\e[0;37m';     BWhi='\e[1;37m';    UWhi='\e[4;37m';    IWhi='\e[0;97m';    
 echo -e "${Gre}[ ${RCol}01 ${Gre}] ${RCol}Updating system"
 {
     sudo apt-get update && sudo apt-get -y upgrade
-} &> /dev/null
+} 
 
 echo -e "${Gre}[ ${RCol}02 ${Gre}] ${RCol}Installing applications"
 {
 	sudo apt-get -y install vim zsh git fortune dconf-cli curl build-essential cmake python-dev python3-dev 
-} &> /dev/null
+} 
 
-echo -e "${Gre}[ ${RCol}03 ${Gre}] ${RCol}Getting the newest version of node"
+echo -e "${Gre}[ ${RCol}03 ${Gre}] ${RCol}Installing nodejs"
 {
     curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh
     yes "" | sudo bash nodesource_setup.sh
     sudo apt-get -y install nodejs 
-} &> /dev/null
+}
 
 echo -e "${Gre}[ ${RCol}04 ${Gre}] ${RCol}Fixing npm permissions"
 {
@@ -39,12 +39,12 @@ echo -e "${Gre}[ ${RCol}04 ${Gre}] ${RCol}Fixing npm permissions"
 		mkdir ~/.npm-global
 		npm config set prefix '~/.npm-global'
 	fi
-} &> /dev/null
+} 
 
 echo -e "${Gre}[ ${RCol}05 ${Gre}] ${RCol}Installing oh-my-zsh"
 {
 	sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" 
-} &> /dev/null
+} 
 
 echo -e "${Gre}[ ${RCol}06 ${Gre}] ${RCol}Install powerline fonts"
 {
@@ -57,10 +57,12 @@ echo -e "${Gre}[ ${RCol}06 ${Gre}] ${RCol}Install powerline fonts"
 		cd ..
 		rm -rf fonts
 	fi
-} &> /dev/null
+} 
 
 echo -e "${Gre}[ ${RCol}07 ${Gre}] ${RCol}Setup my zsh config"
 {
+	git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/plugins/zsh-autosuggestions
+
 	$(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/.zshrc -O ~/.zshrc)
 	sed -i 's/stefan/'$USER'/g' ~/.zshrc
 
@@ -68,21 +70,23 @@ echo -e "${Gre}[ ${RCol}07 ${Gre}] ${RCol}Setup my zsh config"
 		echo "NPM_CONFIG_PREFIX=~/.npm-global" >> ~/.zshrc
 		source ~/.zshrc
 	fi
-} &> /dev/null
+} 
 
 echo -e "${Gre}[ ${RCol}08 ${Gre}] ${RCol}Installing cowsay"
-npm install -g cowsay &> /dev/null
+{
+	npm install -g cowsay 
+}
 
 echo -e "${Gre}[ ${RCol}09 ${Gre}] ${RCol}Installing gogh"
 {
 	wget -O gogh https://git.io/vQgMr && chmod +x gogh && echo 03 | ./gogh && rm gogh
-} &> /dev/null
+} 
 
 echo -e "${Gre}[ ${RCol}10 ${Gre}] ${RCol}Setting the terminal font"
 {
 	id=$(dconf list /org/gnome/terminal/legacy/profiles:/ | sed -n '1p')
 	dconf write /org/gnome/terminal/legacy/profiles:/+$id+/font "'Meslo LG S DZ for Powerline Regular 12'"
-} &> /dev/null
+} 
 
 echo -e "${Gre}[ ${RCol}11 ${Gre}] ${RCol}Fixing zsh permissions"
 {
@@ -94,7 +98,7 @@ echo -e "${Gre}[ ${RCol}11 ${Gre}] ${RCol}Fixing zsh permissions"
 echo -e "${Gre}[ ${RCol}12 ${Gre}] ${RCol}Downloading vim config"
 {
 	$(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/.vimrc -O ~/.vimrc)
-} &> /dev/null
+} 
 
 echo -e "${Gre}[ ${RCol}13 ${Gre}] ${RCol}Setting up vim (this might take a while)"
 {
@@ -105,10 +109,10 @@ echo -e "${Gre}[ ${RCol}13 ${Gre}] ${RCol}Setting up vim (this might take a whil
 	
 	cd ~/.vim/bundle/YouCompleteMe
 	./install.py
-} &> /dev/null
+} 
 
 echo -e "${Gre}[ ${RCol}14 ${Gre}] ${RCol}Cleaning up"
-sudo apt autoremove &> /dev/null
+sudo apt autoremove -y 
 
 echo -e "${Gre}[ ${RCol}15 ${Gre}] ${RCol}Making zsh the default shell"
 chsh -s $(which zsh)

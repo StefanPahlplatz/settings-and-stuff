@@ -1,0 +1,7 @@
+language: bash
+
+before_script:
+    - curl -L "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/install.sh"
+
+script:
+    - bash install.sh

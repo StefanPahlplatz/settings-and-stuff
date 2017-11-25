@@ -9,7 +9,7 @@ DEFAULT_USER=stefan
 COMPLETION_WAITING_DOTS="true"
 
 # Plugins
-plugins=(git command-not-found aterminal autojump chucknorris common-aliases django docker npm node pip python yarn)
+plugins=(git command-not-found aterminal autojump chucknorris common-aliases django docker npm node pip python yarn zsh-autosuggestions)
 
 # Aliases
 alias zshconf="gvim ~/.zshrc"
