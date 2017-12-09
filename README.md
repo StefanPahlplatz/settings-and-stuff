@@ -10,6 +10,23 @@ chmod +x install.sh
 ```
 Press CTRL+D when zsh opens to continue the installation.
 
+# Gnome plugins
+- Clipboard Indicator
+- Appfolders Management extension
+- Dash to dock / Dash to Panel
+- Mconnect
+- Pixel saver
+- Removable drive menu
+- User themes
+- Refresh Wifi Connections 
+- Places Status Indicator 
+- OpenWeather
+- Touchpad Indicator 
+- TopIcons Plus
+- Shelltile
+- Sound Input & Output Device Chooser
+
+
 # Other stuff
 For the pixel saver plugin to work properly:
 ```
