@@ -11,7 +11,6 @@ Blu='\e[0;34m';     BBlu='\e[1;34m';    UBlu='\e[4;34m';    IBlu='\e[0;94m';    
 Pur='\e[0;35m';     BPur='\e[1;35m';    UPur='\e[4;35m';    IPur='\e[0;95m';    BIPur='\e[1;95m';   On_Pur='\e[45m';    On_IPur='\e[0;105m';
 Cya='\e[0;36m';     BCya='\e[1;36m';    UCya='\e[4;36m';    ICya='\e[0;96m';    BICya='\e[1;96m';   On_Cya='\e[46m';    On_ICya='\e[0;106m';
 Whi='\e[0;37m';     BWhi='\e[1;37m';    UWhi='\e[4;37m';    IWhi='\e[0;97m';    BIWhi='\e[1;97m';   On_Whi='\e[47m';    On_IWhi='\e[0;107m';
-
 echo -e "${Gre}[ ${RCol}01 ${Gre}] ${RCol}Updating system"
 {
     sudo apt-get update && sudo apt-get -y upgrade
@@ -61,6 +60,8 @@ echo -e "${Gre}[ ${RCol}06 ${Gre}] ${RCol}Install powerline fonts"
 
 echo -e "${Gre}[ ${RCol}07 ${Gre}] ${RCol}Setup my zsh config"
 {
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git .zsh-syntax-highlighting
+
 	git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/plugins/zsh-autosuggestions
 
 	$(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/.zshrc -O ~/.zshrc)

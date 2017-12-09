@@ -181,6 +181,7 @@ Plug 'itchyny/lightline.vim'                " A light and configurable statuslin
 Plug 'maxbrunsfeld/vim-yankstack'           " Maintains a history of previous yanks
 Plug 'tpope/vim-commentary'                 " Comment stuff
 Plug 'joshdick/onedark.vim'                 " Colorscheme
+Plug 'danro/rename.vim'                     " Rename files
 
 call plug#end()
 

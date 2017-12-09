@@ -12,11 +12,11 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(git command-not-found aterminal autojump chucknorris common-aliases django docker npm node pip python yarn zsh-autosuggestions)
 
 # Aliases
-alias zshconf="gvim ~/.zshrc"
+alias zshrc="vim ~/.zshrc"
+alias vimrc="vim ~/.vimrc"
 alias PATH='echo $PATH | tr ":" "\n" | nl | sort'
-
-# Activate autojump
-[[ -s /home/stefan/.autojump/etc/profile.d/autojump.sh ]] && source /home/stefan/.autojump/etc/profile.d/autojump.sh
+alias up='sudo apt-get upgrade && sudo apt-get update -y && sudo apt autoremove -y'
 
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
+source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
