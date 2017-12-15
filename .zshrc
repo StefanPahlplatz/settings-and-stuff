@@ -11,6 +11,13 @@ COMPLETION_WAITING_DOTS="true"
 # Plugins
 plugins=(git command-not-found aterminal autojump chucknorris common-aliases django docker npm node pip python yarn zsh-autosuggestions)
 
+# Functions
+function lazygit() {
+    git add .
+    git commit -a -m "$1"
+    git push
+}
+
 # Aliases
 alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
