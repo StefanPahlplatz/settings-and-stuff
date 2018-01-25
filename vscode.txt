@@ -46,6 +46,8 @@
   "emmet.syntaxProfiles": {
     "javascript": "jsx"
   },
+  
+  "terminal.integrated.fontFamily": "Source Code Pro for PowerLine",
 
   "files.exclude": {
     "**/.git": true,
