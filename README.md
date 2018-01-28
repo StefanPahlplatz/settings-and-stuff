@@ -1,39 +1,42 @@
 # settings-and-stuff [![Build Status](https://travis-ci.org/StefanPahlplatz/settings-and-stuff.svg?branch=master)](https://travis-ci.org/StefanPahlplatz/settings-and-stuff)
 
-> A collection of settings for various programs and plugins. 
+> A collection of settings for various programs and plugins. Only works on linux.
 
-Install & configures some basic stuff like zsh and vim.
+## Default installation
+
+Sets up things like node, npm, zsh and vim.
+
 ```
 wget -O install.sh https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/install.sh
 chmod +x install.sh
 ./install.sh
 ```
-Press CTRL+D when zsh opens to continue the installation.
 
-# Gnome plugins
-- Clipboard Indicator
-- Appfolders Management extension
-- Dash to dock / Dash to Panel
-- Mconnect
-- Pixel saver
-- Removable drive menu
-- User themes
-- Refresh Wifi Connections 
-- Places Status Indicator 
-- OpenWeather
-- Touchpad Indicator 
-- TopIcons Plus
-- Shelltile
-- Sound Input & Output Device Chooser
+Press **CTRL+D** when zsh opens to continue the installation.
 
+## VS Code stuff
 
-# Other stuff
-For the pixel saver plugin to work properly:
+Installs extensions and updates the settings file.
+
 ```
-cd ~/.local/share/gnome-shell/extensions/pixel-saver@deadalnix.me/themes
-mv Ambiance Ambiance.bak
-ln -s default Ambiance
+wget -O vscode.sh https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/vscode.sh
+chmod +x vscode.sh
+./vscode.sh
 ```
-credit to ebruck for this one.
 
+## Gnome plugins
 
+* Clipboard Indicator
+* Appfolders Management extension
+* Dash to dock / Dash to Panel
+* Mconnect
+* Pixel saver
+* Removable drive menu
+* User themes
+* Refresh Wifi Connections
+* Places Status Indicator
+* OpenWeather
+* Touchpad Indicator
+* TopIcons Plus
+* Shelltile
+* Sound Input & Output Device Chooser

@@ -64,7 +64,7 @@ echo -e "${Gre}[ ${RCol}07 ${Gre}] ${RCol}Setup my zsh config"
 
 	git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/plugins/zsh-autosuggestions
 
-	$(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/.zshrc -O ~/.zshrc)
+	$(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/.zshrc -O ~/.zshrc)
 	sed -i 's/stefan/'$USER'/g' ~/.zshrc
 
 	if [ "$addnpmglobal" = true ]; then
@@ -98,7 +98,7 @@ echo -e "${Gre}[ ${RCol}11 ${Gre}] ${RCol}Fixing zsh permissions"
 
 echo -e "${Gre}[ ${RCol}12 ${Gre}] ${RCol}Downloading vim config"
 {
-	$(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/.vimrc -O ~/.vimrc)
+	$(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/.vimrc -O ~/.vimrc)
 } 
 
 echo -e "${Gre}[ ${RCol}13 ${Gre}] ${RCol}Setting up vim (this might take a while)"

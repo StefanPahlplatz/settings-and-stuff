@@ -2,6 +2,8 @@ language: bash
 
 before_script:
     - curl -L "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/install.sh"
+    - curl -L "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/vscode.sh"
 
 script:
     - bash install.sh
+    - bash vscode.sh
