@@ -1,33 +1,11 @@
-## Useful VS Code extensions
-- Auto Close Tag
-- Auto Rename Tag
-- Babel Javascript
-- Debugger for Chrome
-- EditorConfig for VS Code
-- EditorConfigGenerator
-- ESLint
-- IntelliJ IDEA Keybindings
-- InteliSense for CSS class names
-- Markdown preview enhanced
-- Material Icon Theme
-- npm
-- npm Intellisense
-- GraphQL for VSCode
-- One Dark Pro
-- Path Intellisense
-- Prettier - JavaScript formatter
-
-## My VS Code settings
-
-```
 {
-  "javascript.validate.enable": true,
-  "editor.formatOnSave": true,
+  // Prettier
   "prettier.trailingComma": "es5",
   "prettier.singleQuote": true,
   "eslint.autoFixOnSave": true,
-  "files.autoSave": "off",
-
+  // Javascript
+  "javascript.validate.enable": true,
+  // Editor
   "editor.snippetSuggestions": "top",
   "editor.tabSize": 2,
   "editor.quickSuggestions": true,
@@ -36,19 +14,18 @@
   "editor.scrollBeyondLastLine": false,
   "editor.smoothScrolling": true,
   "editor.tabCompletion": true,
-
+  "editor.formatOnSave": true,
+  "files.autoSave": "off",
+  // Workbench
   "extensions.ignoreRecommendations": false,
-
   "workbench.iconTheme": "material-icon-theme",
-  "workbench.startupEditor": "newUntitledFile",
   "workbench.colorTheme": "One Dark Pro",
-
+  "workbench.startupEditor": "newUntitledFile",
   "emmet.syntaxProfiles": {
     "javascript": "jsx"
   },
-  
-  "terminal.integrated.fontFamily": "Source Code Pro for PowerLine",
-
+  "terminal.integrated.fontFamily": "Meslo LG M DZ for Powerline",
+  // Files
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -76,4 +53,3 @@
     "**/android": true
   }
 }
-```
