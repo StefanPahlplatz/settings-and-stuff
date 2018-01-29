@@ -14,11 +14,14 @@ Whi='\e[0;37m';     BWhi='\e[1;37m';    UWhi='\e[4;37m';    IWhi='\e[0;97m';    
 echo -e "${Gre}[ ${RCol}01 ${Gre}] ${RCol}Updating system"
 {
     sudo apt-get update && sudo apt-get -y upgrade
+    sudo add-apt-repository ppa:daniruiz/flat-remix
 } 
 
 echo -e "${Gre}[ ${RCol}02 ${Gre}] ${RCol}Installing applications"
 {
-	sudo apt-get -y install vim zsh git fortune dconf-cli curl build-essential cmake python-dev python3-dev 
+	sudo apt-get update
+	sudo apt-get -y install vim zsh git fortune dconf-cli curl build-essential cmake python-dev python3-dev flat-remix-gnome arc-theme
+	sudo apt-get install ubuntu-wallpapers-karmic ubuntu-wallpapers-lucid ubuntu-wallpapers-maverick ubuntu-wallpapers-natty ubuntu-wallpapers-oneiric ubuntu-wallpapers-precise ubuntu-wallpapers-quantal ubuntu-wallpapers-raring ubuntu-wallpapers-saucy
 } 
 
 echo -e "${Gre}[ ${RCol}03 ${Gre}] ${RCol}Installing nodejs"
@@ -110,7 +113,7 @@ echo -e "${Gre}[ ${RCol}13 ${Gre}] ${RCol}Setting up vim (this might take a whil
 	
 	cd ~/.vim/bundle/YouCompleteMe
 	./install.py
-} 
+}
 
 echo -e "${Gre}[ ${RCol}14 ${Gre}] ${RCol}Cleaning up"
 sudo apt autoremove -y 
