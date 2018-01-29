@@ -23,7 +23,6 @@ alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
 alias PATH='echo $PATH | tr ":" "\n" | nl | sort'
 alias up='sudo apt-get upgrade && sudo apt-get update -y && sudo apt autoremove -y'
-alias ls='pwd; ls --color'
 
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
