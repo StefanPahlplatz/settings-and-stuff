@@ -20,7 +20,7 @@ echo -e "${Gre}[ ${RCol}01 ${Gre}] ${RCol}Updating system"
 echo -e "${Gre}[ ${RCol}02 ${Gre}] ${RCol}Installing applications"
 {
 	sudo apt-get update
-	sudo apt-get -y install vim zsh git fortune dconf-cli curl build-essential cmake python-dev python3-dev flat-remix-gnome arc-theme
+	sudo apt-get -y install htop vim zsh git fortune dconf-cli curl build-essential cmake python-dev python3-dev flat-remix-gnome arc-theme
 	sudo apt-get install ubuntu-wallpapers-karmic ubuntu-wallpapers-lucid ubuntu-wallpapers-maverick ubuntu-wallpapers-natty ubuntu-wallpapers-oneiric ubuntu-wallpapers-precise ubuntu-wallpapers-quantal ubuntu-wallpapers-raring ubuntu-wallpapers-saucy
 } 
 
