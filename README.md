@@ -1,5 +1,4 @@
-# settings-and-stuff [![Build Status](https://travis-ci.org/StefanPahlplatz/settings-and-stuff.svg?branch=master)](https://travis-ci.org/StefanPahlplatz/settings-and-stuff)
-
+# settings-and-stuff
 > A collection of settings for various programs and plugins. Only tested on Ubuntu 17.10.
 
 ## Default installation
