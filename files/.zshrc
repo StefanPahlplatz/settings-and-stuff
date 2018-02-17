@@ -9,7 +9,7 @@ DEFAULT_USER=stefan
 COMPLETION_WAITING_DOTS="true"
 
 # Plugins
-plugins=(git command-not-found aterminal autojump chucknorris common-aliases django docker npm node pip python yarn zsh-autosuggestions)
+plugins=(git command-not-found aterminal common-aliases django npm node pip python yarn ng zsh-autosuggestions)
 
 # Functions
 function lazygit() {
@@ -19,10 +19,23 @@ function lazygit() {
 }
 
 # Aliases
-alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
 alias PATH='echo $PATH | tr ":" "\n" | nl | sort'
-alias up='sudo apt-get upgrade && sudo apt-get update -y && sudo apt autoremove -y'
+alias up='sudo apt -y update && sudo apt-get upgrade -y && sudo apt-get autoremove -y'
+alias z='vim /home/stefan/.zshrc'
+alias r='ranger'
+alias wifi='nmtui'
+
+# NPM global path
+NPM_CONFIG_PREFIX=~/.npm-global
+export PATH=$PATH:/home/stefan/.npm-global/bin          # NPM package path
+
+# Autocomplete color
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
+
+# Preferred editor
+export EDITOR='vim'
+export ECTO_EDITOR=$EDITOR
 
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
