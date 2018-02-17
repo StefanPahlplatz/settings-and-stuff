@@ -7,7 +7,7 @@
 Sets up things like node, npm, zsh and vim.
 
 ```
-wget -O install.sh https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/install.sh
+wget -O install.sh https://goo.gl/wCrw7N
 chmod +x install.sh
 ./install.sh
 ```
