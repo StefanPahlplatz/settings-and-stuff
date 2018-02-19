@@ -82,6 +82,7 @@ do
             git clone git://github.com/zsh-users/zsh-autosuggestions "$home/.oh-my-zsh/plugins/zsh-autosuggestions"
             # My zsh config
 			$(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/.zshrc -O "$home/.zshrc")
+            sed -i 's/stefan/'"$USER"'/g' ~/.zshrc
             chmod -R 755 /usr/local/share/zsh/site-functions
             # Color scheme
             wget -O gogh https://git.io/vQgMr && chmod +x gogh && echo 03 | ./gogh && rm gogh
