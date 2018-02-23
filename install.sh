@@ -88,6 +88,9 @@ do
             wget -O gogh https://git.io/vQgMr && chmod +x gogh && echo 03 | ./gogh && rm gogh
             # Fix permissions
             sudo chmod -R 755 /usr/local/share/zsh/site-functions
+	    # Install ZSH Spaceship theme
+	    git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
+	    ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
             ;;
         5)
             blue Installing themes...
@@ -176,7 +179,7 @@ done
 sudo apt install ubuntu-restricted-extras -y
 sudo apt autoremove -y 
 
-dialog --title "Done!" --msgbox "All done, the last step is to logout. I will log you out 10 seconds after pressing OK, if you don't want to log out you can cancel by pressing ctrl+c" 12 80
+dialog --title "Done!" --msgbox "All done, the last step is to logout. Make sure that you set a powerline font for your terminal." 12 80
 clear
 
 blue Waiting 10 seconds and then logging out...
