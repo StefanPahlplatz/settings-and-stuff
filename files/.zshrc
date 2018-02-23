@@ -2,7 +2,7 @@
 export ZSH=/home/stefan/.oh-my-zsh
 
 # The theme
-ZSH_THEME="agnoster"
+ZSH_THEME="spaceship"
 DEFAULT_USER=stefan
 
 # Display red dots whilst waiting for completion.
@@ -25,6 +25,11 @@ alias up='sudo apt -y update && sudo apt-get upgrade -y && sudo apt-get autoremo
 alias z='vim /home/stefan/.zshrc'
 alias r='ranger'
 alias wifi='nmtui'
+alias r='ranger'
+alias z='vim /home/stefan/.zshrc'
+alias v='vim ~/.vimrc'
+alias sz='source ~/.zshrc'
+alias sv='source ~/.vimrc'
 
 # NPM global path
 NPM_CONFIG_PREFIX=~/.npm-global
