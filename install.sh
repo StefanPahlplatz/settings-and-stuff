@@ -31,6 +31,9 @@ options=(1 "Node 9.x & npm" on
          12 "Bluetooth headset software" off
          13 "Firefox" off
          14 "Sway" off
+         15 "Livedown" off
+         16 "Ubuntu extras (Microsoft fonts)" off
+         17 "ncdu (See you free disk space)" off
 	 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 echo $choices > /tmp/.choices
@@ -173,10 +176,21 @@ do
             $(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/config -O "$home/.config/sway/config")
             sudo apt install -y j4-dmenu-desktop
             ;;
+        15)
+            blue Installing livedown...
+            npm install -g livedown
+            ;;
+        16)
+            blue Installing Ubuntu extras...
+            sudo apt install ubuntu-restricted-extras -y
+            ;;
+        17)
+            blue Installing ncdu...
+            sudo apt -y install ncdu
+            ;;
     esac
 done
 
-sudo apt install ubuntu-restricted-extras -y
 sudo apt autoremove -y 
 
 dialog --title "Done!" --msgbox "All done, the last step is to logout. Make sure that you set a powerline font for your terminal." 12 80
