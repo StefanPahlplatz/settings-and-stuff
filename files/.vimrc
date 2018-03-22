@@ -137,6 +137,9 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Functions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" 
+" Pasting shortcut
+set pastetoggle=<F3>
+
 " Toggle between number and relativenumber
 function! ToggleNumber()
     if(&relativenumber == 1)
