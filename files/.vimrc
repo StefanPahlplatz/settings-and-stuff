@@ -2,15 +2,15 @@
 " Personal vim rice
 " 
 " Sections:
-"   -> General
-"   -> UI
-"   -> Colors & Fonts
-"   -> Spaces & Tabs
-"   -> Searching
-"   -> Folding
-"   -> Movement
-"   -> Functions
-"   -> Plugins
+"   General
+"   UI
+"   Colors & Fonts
+"   Spaces & Tabs
+"   Searching
+"   Folding
+"   Movement
+"   Functions
+"   Plugins
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -185,6 +185,8 @@ Plug 'maxbrunsfeld/vim-yankstack'           " Maintains a history of previous ya
 Plug 'tpope/vim-commentary'                 " Comment stuff
 Plug 'joshdick/onedark.vim'                 " Colorscheme
 Plug 'danro/rename.vim'                     " Rename files
+Plug 'leafgarland/typescript-vim'           " Syntax highlighting for ts files
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries'} " Go
 
 call plug#end()
 
