@@ -20,8 +20,13 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set history=700             " Sets how many lines vim has to remember
 set autoread                " Set to auto read when a file is changed from the outside
+set ignorecase
 set smartcase
+set hidden
 let mapleader=","           " Leader is comma
+set backspace=indent,eol,start
+set confirm
+map Y y$
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
