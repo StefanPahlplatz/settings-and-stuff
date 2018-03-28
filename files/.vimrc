@@ -26,6 +26,7 @@ set hidden
 let mapleader=","           " Leader is comma
 set backspace=indent,eol,start
 set confirm
+set encoding=UTF-8
 map Y y$
 
 " :W sudo saves the file
@@ -209,6 +210,7 @@ Plug 'Chiel92/vim-autoformat'               " Autoformat
 Plug 'dkprice/vim-easygrep'                 " Refactoring
 Plug 'jistr/vim-nerdtree-tabs'              " Nerdtree tabs
 Plug 'davidhalter/jedi-vim'                 " Python autocomplete
+Plug 'ryanoasis/vim-devicons'               " Nerdtree icons
 
 call plug#end()
 

@@ -91,11 +91,15 @@ do
                         ;;
                 4)
                         blue Now installing zsh...
+                        # Install zsh
                         sudo apt install -y zsh
+                        # Change shell
                         chsh -s $(which zsh)
                         # Install oh-my-zsh
                         sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-                        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$home/.zsh-syntax-highlighting"
+                        # Install zsh-syntax-highlighting
+                        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+                        # Install zsh-autosuggestions
                         git clone git://github.com/zsh-users/zsh-autosuggestions "$home/.oh-my-zsh/plugins/zsh-autosuggestions"
                         # My zsh config
                         $(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/.zshrc -O "$home/.zshrc")

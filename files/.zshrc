@@ -13,7 +13,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
 
 
 # Plugins
-plugins=(git command-not-found common-aliases zsh-autosuggestions)
+plugins=(git command-not-found common-aliases zsh-autosuggestions zsh-syntax-highlighting)
 
 
 # Settings
@@ -39,7 +39,7 @@ alias up='sudo apt -y update && sudo apt-get upgrade -y && sudo apt-get autoremo
 alias wifi='nmtui'
 alias r='ranger'
 alias z='vim ~/.zshrc'
-alias v='vim ~/.vimrc'
+alias v='vim'
 alias sz='source ~/.zshrc'
 alias sv='source ~/.vimrc'
 alias freespace='ncdu'
@@ -59,4 +59,3 @@ fi
 
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
-source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
