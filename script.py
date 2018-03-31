@@ -1,5 +1,10 @@
 #! /usr/bin/env python3
 
+"""
+Requires
+python3-dialog
+python-apt
+"""
 import locale
 import os
 import sys
@@ -10,13 +15,14 @@ from subprocess import call
 import apt
 from dialog import Dialog
 
+from spinner import Spinner
+
 
 class How(Enum):
-    SCRIPT = 1
-    APT = 2
-    SNAP = 3
-    NPM = 4
-    MANUAL = 5
+    APT = 1
+    SNAP = 2
+    NPM = 3
+    MANUAL = 4
 
 
 d = Dialog(dialog="dialog", autowidgetsize=True)
@@ -46,6 +52,10 @@ def check_code(code):
             quit()
 
 
+def split(text):
+    return text.split(' ')
+
+
 d.msgbox(
     "Welcome\n\nThis script will guide you through installing all the basic software you would normally do yourself.")
 
@@ -57,7 +67,6 @@ prog_lang = {
     'nodejs npm': Program('Node & NPM', How.APT),
     'rustc': Program('Rust', How.APT),
     'default-jdk': Program('Java', How.APT),
-    'hello': Program('Hello', How.SNAP),
 }
 prog_lang_choices = ask_checklist("Let's start with your programming languages", prog_lang.values())
 
@@ -76,6 +85,7 @@ prog_tools_choices = ask_checklist("Select your programming tools.", prog_tools.
 Programs
 """
 programs = {
+    'software-properties-common python-software-properties': Program('Common libraries (recommended)', How.APT),
     'gimp': Program('Gimp', How.APT),
     'spotify': Program('Spotify', How.SNAP),
     'filezilla': Program('Filezilla', How.APT),
@@ -93,8 +103,8 @@ program_choices = ask_checklist("Select your programs.", programs.values())
 Shell
 """
 shells = {
-    'zsh': Program('ZSH', How.MANUAL),
-    'fish': Program('FISH', How.MANUAL)
+    'zsh': Program('ZSH', How.APT),
+    'fish': Program('FISH', How.APT)
 }
 shell_choices = ask_checklist("Select your shell", shells.values())
 
@@ -109,18 +119,23 @@ Fonts
 d.msgbox("The script will now install all the programs. Sit back and relax.")
 clear()
 
-print("Updating system")
+spinner = Spinner("Updating system")
+spinner.start()
 cache = apt.cache.Cache()
 cache.update()
 cache = apt.cache.Cache()
+spinner.stop()
 
-print("Upgrading system")
+spinner.set_text("Upgrading system")
+spinner.start()
 cache.upgrade()
+spinner.stop()
 
 all_choices = prog_lang_choices + prog_tools_choices + program_choices + shell_choices
 all_programs = {**prog_lang, **prog_tools, **programs, **shells}
 snap_list = []
 npm_list = []
+manual_list = []
 
 for installation_name, program in all_programs.items():
     for program_name in all_choices:
@@ -131,12 +146,54 @@ for installation_name, program in all_programs.items():
                 snap_list.append(installation_name)
             elif program.how == How.NPM:
                 npm_list.append(installation_name)
+            elif program.how == How.MANUAL:
+                manual_list.append(installation_name)
             else:
-                continue
+                raise NotImplementedError("Don't know how to implement" + str(program.how))
 
-print("Installing applications with apt")
+spinner.set_text("Installing applications with APT")
+spinner.start()
 cache.commit()
+spinner.stop()
 
-print("Installing applications with snap")
-command = ["snap", "install", ''.join(snap_list)]
-call(command)
+if snap_list:
+    spinner.set_text("Installing applications with snap")
+    spinner.start()
+    command = ["snap", "install", "--classic", ''.join(snap_list)]
+    call(command)
+    spinner.stop()
+
+if npm_list:
+    spinner.set_text("Installing applications with NPM")
+    spinner.start()
+    command = ["npm", "install", "-g" ''.join(npm_list)]
+    call(command)
+    spinner.stop()
+
+if manual_list:
+    spinner.set_text("Running manual install scripts")
+    spinner.start()
+    for program in manual_list:
+        if program == "pipenv":
+            call(split("sudo add-apt-repository ppa:pypa/ppa -y"))
+            call(split("sudo apt update"))
+            call(split("sudo apt-get -y install pipenv"))
+        elif program == "virtualenv":
+            call(split("sudo apt-get -y install python3-pip"))
+            call(split("pip3 install virtualenv"))
+        elif program == "chrome":
+            call(split("wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"))
+            call(split("sudo dpkg -i google-chrome-stable_current_amd64.deb"))
+            try:
+                os.remove('google-chrome-stable_current_amd64.deb')
+            except OSError:
+                pass
+        else:
+            print(
+                "Installation for {} not yet implemented. If you think this is an error please create an issue on https://github.com/StefanPahlplatz/settings-and-stuff".format(
+                    program))
+    spinner.stop()
+
+# print("Post install script")
+
+d.msgbox("Done! Log out to apply all changes.")
