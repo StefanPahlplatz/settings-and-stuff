@@ -34,6 +34,7 @@ options=(1 "Node 9.x & npm" on
 15 "Livedown" off
 16 "Ubuntu extras (Microsoft fonts)" off
 17 "ncdu (See you free disk space)" off
+18 "fish shell" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 
@@ -206,6 +207,11 @@ do
                         blue Installing ncdu...
                         sudo apt -y install ncdu
                         ;;
+                18)
+                        blue Installing fish...
+                        sudo apt install fish
+                        curl -L https://get.oh-my.fish | fish
+                        omf install https://github.com/jhillyerd/plugin-git
         esac
 done
 
