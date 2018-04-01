@@ -13,6 +13,7 @@ from collections import namedtuple
 from enum import Enum
 from subprocess import call
 from os.path import expanduser
+import getpass
 
 import apt
 from dialog import Dialog
@@ -30,7 +31,7 @@ ZSHRC = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/ma
 VIMRC = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/.vimrc"
 VSCODE_CONFIG = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/settings.json"
 HOME = expanduser("~")
-USER = os.getlogin()
+USER = getpass.getuser()
 
 
 d = Dialog(dialog="dialog", autowidgetsize=True)
