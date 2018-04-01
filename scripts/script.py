@@ -97,7 +97,7 @@ prog_tools_choices = ask_checklist(
 Programs
 """
 programs = {
-    'software-properties-common python-software-properties git curl wget htop git fortune dconf-cli curl build-essential cmake python-dev python3-dev snapd gparted linux-headers-generic ranger python3-pip xclip': Program('Common libraries & programs (recommended)', How.APT),
+    'software-properties-common python-software-properties curl wget htop fortune dconf-cli curl build-essential cmake python-dev python3-dev snapd gparted linux-headers-generic ranger xclip': Program('Common libraries & programs (recommended)', How.APT),
     'gimp': Program('Gimp', How.APT),
     'spotify': Program('Spotify', How.SNAP),
     'filezilla': Program('Filezilla', How.APT),
