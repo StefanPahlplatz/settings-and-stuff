@@ -26,9 +26,9 @@ class How(Enum):
     NPM = 3
     MANUAL = 4
 
-ZSHRC = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/.zshrc"
-VIMRC = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/.vimrc"
-VSCODE_CONFIG = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/settings.json"
+ZSHRC = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/.zshrc"
+VIMRC = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/.vimrc"
+VSCODE_CONFIG = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/settings.json"
 HOME = expanduser("~")
 USER = os.getlogin()
 
