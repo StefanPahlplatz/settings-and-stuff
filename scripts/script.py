@@ -271,6 +271,8 @@ if 'zsh' in all_choices:
     os.system(
         'ln -s ~/oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme')
 
+if 'vim' in all_choices:
+    call(["./vim-install.sh"])
 
 d.msgbox("Done! Log out to apply all changes.")
 quit()
