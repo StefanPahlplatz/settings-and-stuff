@@ -8,9 +8,11 @@ python-apt
 import locale
 import os
 import sys
+import urllib.request
 from collections import namedtuple
 from enum import Enum
 from subprocess import call
+from os.path import expanduser
 
 import apt
 from dialog import Dialog
@@ -23,6 +25,12 @@ class How(Enum):
     SNAP = 2
     NPM = 3
     MANUAL = 4
+
+ZSHRC = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/.zshrc"
+VIMRC = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/.vimrc"
+VSCODE_CONFIG = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/settings.json"
+HOME = expanduser("~")
+USER = os.getlogin()
 
 
 d = Dialog(dialog="dialog", autowidgetsize=True)
@@ -41,7 +49,8 @@ def quit():
 
 
 def ask_checklist(question, choices):
-    code, options = d.checklist(question, choices=[(x.name, "", False) for x in choices])
+    code, options = d.checklist(
+        question, choices=[(x.name, "", False) for x in choices])
     check_code(code)
     return options
 
@@ -68,7 +77,8 @@ prog_lang = {
     'rustc': Program('Rust', How.APT),
     'default-jdk': Program('Java', How.APT),
 }
-prog_lang_choices = ask_checklist("Let's start with your programming languages", prog_lang.values())
+prog_lang_choices = ask_checklist(
+    "Let's start with your programming languages", prog_lang.values())
 
 """
 Programming tools menu
@@ -78,14 +88,16 @@ prog_tools = {
     'vscode': Program('VS Code', How.SNAP),
     'pipenv': Program('Pipenv', How.MANUAL),
     'virtualenv': Program('Virtualenv', How.MANUAL),
+    'yarn': Program('Yarn', How.APT),
 }
-prog_tools_choices = ask_checklist("Select your programming tools.", prog_tools.values())
+prog_tools_choices = ask_checklist(
+    "Select your programming tools.", prog_tools.values())
 
 """
 Programs
 """
 programs = {
-    'software-properties-common python-software-properties': Program('Common libraries (recommended)', How.APT),
+    'software-properties-common python-software-properties git curl wget htop git fortune dconf-cli curl build-essential cmake python-dev python3-dev snapd gparted linux-headers-generic ranger python3-pip xclip': Program('Common libraries & programs (recommended)', How.APT),
     'gimp': Program('Gimp', How.APT),
     'spotify': Program('Spotify', How.SNAP),
     'filezilla': Program('Filezilla', How.APT),
@@ -106,15 +118,35 @@ shells = {
     'zsh': Program('ZSH', How.APT),
     'fish': Program('FISH', How.APT)
 }
-shell_choices = ask_checklist("Select your shell", shells.values())
+shell_choices = ask_checklist(
+    "Select which shells you want to install", shells.values())
+
+try:
+    shell = shell_choices[0].lower()
+    if len(shell_choices) > 1:
+        code, main_shell = d.menu("Select your main shell", choices=[
+                                  (str(ind), program) for ind, program in enumerate(shell_choices)])
+        check_code(code)
+        if main_shell == 0:
+            shell = 'zsh'
+        elif main_shell == 1:
+            shell = 'fish'
+    print(shell)
+    sys.exit()
+except IndexError:
+    pass
 
 """
 Fonts
 """
-# POWERLINE = "Powerline fonts"
+fonts = {
+    'fonts-powerline': Program('Powerline fonts', How.APT),
+    'restricted-extras': Program('Ubuntu restricted extras', How.MANUAL),
+}
 # PROG_FONT = "Programming fonts"
 # EXTRAS = "Ubuntu extras (Microsoft fonts)"
-# font_choices = ask_checklist("Select your fonts", [POWERLINE, PROG_FONT, EXTRAS])
+# font_choices = ask_checklist("Select your fonts", [POWERLINE, PROG_FONT,
+# EXTRAS])
 
 d.msgbox("The script will now install all the programs. Sit back and relax.")
 clear()
@@ -131,8 +163,9 @@ spinner.start()
 cache.upgrade()
 spinner.stop()
 
-all_choices = prog_lang_choices + prog_tools_choices + program_choices + shell_choices
-all_programs = {**prog_lang, **prog_tools, **programs, **shells}
+all_choices = prog_lang_choices + \
+    prog_tools_choices + program_choices + shell_choices
+all_programs = {**prog_lang, **prog_tools, **programs, **shells, **fonts}
 snap_list = []
 npm_list = []
 manual_list = []
@@ -149,7 +182,8 @@ for installation_name, program in all_programs.items():
             elif program.how == How.MANUAL:
                 manual_list.append(installation_name)
             else:
-                raise NotImplementedError("Don't know how to implement" + str(program.how))
+                raise NotImplementedError(
+                    "Don't know how to implement" + str(program.how))
 
 spinner.set_text("Installing applications with APT")
 spinner.start()
@@ -182,18 +216,61 @@ if manual_list:
             call(split("sudo apt-get -y install python3-pip"))
             call(split("pip3 install virtualenv"))
         elif program == "chrome":
-            call(split("wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"))
+            call(
+                split("wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"))
             call(split("sudo dpkg -i google-chrome-stable_current_amd64.deb"))
             try:
                 os.remove('google-chrome-stable_current_amd64.deb')
             except OSError:
                 pass
+        elif program == 'restricted-extras':
+            call(split('sudo apt install ubuntu-restricted-extras -y'))
         else:
             print(
-                "Installation for {} not yet implemented. If you think this is an error please create an issue on https://github.com/StefanPahlplatz/settings-and-stuff".format(
+                "Installation for {} not yet implemented. If you think this is an error please create an issue on \
+                https://github.com/StefanPahlplatz/settings-and-stuff".format(
                     program))
     spinner.stop()
 
-# print("Post install script")
+print("Post install script")
+if 'fish' in all_choices:
+    os.system("curl -L https://get.oh-my.fish | fish")
+    os.system("omf install https://github.com/jhillyerd/plugin-git")
+
+if 'zsh' in all_choices:
+    call(split("sudo apt -y install git wget"))
+
+    # Install oh-my-zsh
+    call(
+        ["sh", "-c", '"$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"'])
+
+    # Install zsh-autosuggestions
+    call(
+        split("git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"))
+    call(split("sudo apt -y install zsh-syntax-highlighting"))
+
+    # Download my config
+    urllib.request.urlretrieve(ZSHRC, ".zshrc")
+
+    # Replace stefan with the current user
+    with open(".zshrc", "rt") as fin:
+        with open("zsh", "wt") as fout:
+            for line in fin:
+                fout.write(line.replace('stefan', USER))
+    os.rename('zsh', HOME + '/.zshrc')
+
+    # Terminal color scheme
+    url.retrieve('https://git.io/vQgMr', 'gogh')
+    call(split("chmod +x gogh"))
+    os.system(
+        "wget -O gogh https://git.io/vQgMr && chmod +x gogh && echo 03 37 96 135 | ./gogh && rm gogh")
+
+    # ZSH Theme
+    os.system(
+        'git clone https://github.com/denysdovhan/spaceship-prompt.git ~/.oh-my-zsh/custom/themes/spaceship-prompt')
+    os.system(
+        'ln -s ~/oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme')
+
 
 d.msgbox("Done! Log out to apply all changes.")
+quit()

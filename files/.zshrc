@@ -35,7 +35,7 @@ function lazygit() {
 
 # Aliases
 alias PATH='echo $PATH | tr ":" "\n" | nl | sort'
-alias up='sudo apt -y update && sudo apt-get upgrade -y && sudo apt-get autoremove -y'
+alias up='sudo apt -y update && sudo apt-get upgrade -y && sudo apt-get autoremove -y && snap refresh'
 alias wifi='nmtui'
 alias r='ranger'
 alias z='vim ~/.zshrc'
