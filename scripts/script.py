@@ -277,6 +277,6 @@ if 'zsh' in all_choices:
 if 'vim' in all_choices:
     call(["./vim-install.sh"])
 
-d.msgbox("The script encountered the following errors:\n\n{}".format("\n".join(errors))
+d.msgbox("The script encountered the following errors:\n\n{}".format("\n".join(errors)))
 d.msgbox("Done! Log out to apply all changes.")
 quit()
