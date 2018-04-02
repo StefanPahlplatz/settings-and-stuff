@@ -1,9 +1,7 @@
 # settings-and-stuff
-> A collection of settings for various programs and plugins. Only tested on Ubuntu 17.10.
+> A collection of settings for various programs and plugins.
 
 ## Default installation
-
-Sets up things like node, npm, zsh and vim.
 
 ```
 wget -O install.sh https://goo.gl/wCrw7N
@@ -11,4 +9,4 @@ chmod +x install.sh
 ./install.sh
 ```
 
-Press **CTRL+D** when zsh opens to continue the installation.
+

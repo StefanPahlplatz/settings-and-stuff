@@ -2,6 +2,19 @@
 blue() { printf "\n\033[0;34m $* \033[0m\n\n" && (echo $* >> /tmp/pahlplatz.log) ;}
 red() { printf "\n\033[0;31m $* \033[0m\n\n" && (echo ERROR: $* >> /tmp/pahlplatz.log) ;}
 
+quit() {
+        rm /tmp/.choices
+        clear
+        exit
+}
+
+check_quit() {
+        # If cancelled, drop the dialog
+        if [ $? -ne 0 ]; then
+                quit
+        fi;
+}
+
 echo "Installer started $(date)" >> /tmp/pahlplatz.log
 chmod 777 /tmp/pahlplatz.log
 
@@ -9,70 +22,124 @@ chmod 777 /tmp/pahlplatz.log
 sudo apt-get install -y dialog
 
 # Welcome dialog
-dialog --title 'Welcome' --msgbox 'Hey thanks for using my installer.\n -Stefan' 10 30
+dialog --title 'Welcome' --msgbox 'This installer will guide you through installing all the basic programs you will need.' 10 30
 
 # Store the home and user
 name=$(echo $USER)
 home=$(eval echo "~$name")
 
-# Options
-cmd=(dialog --separate-output --checklist "Select additional packages to install with <SPACE>:" 22 76 16)
-options=(1 "Node 9.x & npm" on
-2 "Powerline fonts" on
-3 "Vim" on
-4 "ZSH" on
-5 "Theme & icon packs" on
-6 "Gimp" off
-7 "Spotify" off
-8 "Virtualbox" off
-9 "Filezilla" off
-10 "Google Chrome" off
-11 "VS Code" off
-12 "Bluetooth headset software" off
-13 "Firefox" off
-14 "Sway" off
-15 "Livedown" off
-16 "Ubuntu extras (Microsoft fonts)" off
-17 "ncdu (See you free disk space)" off
-18 "fish shell" off
+# Programming languages
+cmd=(dialog --separate-output --checklist "Select your programming languages" 22 76 16)
+options=(
+"node" "Node 9.x & npm" on
+"go" "Golang" off
+"rust" "Rust" off
+"java" "Java JDK" off
 )
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+check_quit
 
-# If cancelled, drop the dialog
-if [ $? -ne 0 ]; then
-        clear;
-        exit;
-fi;
+# Programming tools
+cmd=(dialog --separate-output --checklist "Select your programming tools" 22 76 16)
+options=(
+"pipenv" "Pipenv" off
+"virtualenv" "Virtualenv" off
+"yarn" "Yarn" off
+)
+choices="$choices $("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+check_quit
 
-echo $choices > /tmp/.choices
+# Editors
+cmd=(dialog --separate-output --checklist "Select your editors" 22 76 16)
+options=(
+"vim" "Vim" off
+"code" "VS Code" off
+"atom" "Atom" off
+)
+choices="$choices $("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+check_quit
 
-dialog --title "Let's get this party started!" --msgbox "The script will now install your selected components, sit back and enjoy." 13 60
+# Programs
+cmd=(dialog --separate-output --checklist "Select your programs" 22 76 16)
+options=(
+"reccomended" "Collection of utilities & libraries" on
+"gimp" "Gimp" off
+"spotify" "Spotify" off
+"filezilla" "Filezilla" off
+"virtualbox" "Virtualbox" off
+"chrome" "Chrome" off
+"firefox" "Firefox" off
+"pulseaudio" "Pulseaudio" off
+"blender" "Blender" off
+"ncdu" "View free space on your disk" off
+)
+choices="$choices $("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+check_quit
+
+# Shell
+cmd=(dialog --radiolist "Select your shell" 22 76 16)
+options=(
+"zsh" "ZSH" on
+"fish" "Fish" off
+"default" "Default" off
+)
+choices="$choices $("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+check_quit
+
+# Fonts
+cmd=(dialog --separate-output --checklist "Select additional fonts" 22 76 16)
+options=(
+"powerline" "Powerline fonts" on
+"extras" "Ubuntu Restricted Extras" off
+)
+choices="$choices $("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+check_quit
+
+dialog --msgbox "Let's start" 6 18
 clear
 
-blue Installing the default stuff \(system basics\)...
+# Update system
+sudo apt -y update && sudo apt -y upgrade
 
-sudo apt update -y && sudo apt-get -y upgrade
-sudo apt -y install htop git fortune dconf-cli curl build-essential cmake python-dev python3-dev snapd gparted linux-headers-generic ranger python3-pip xclip
+# Install required applications
+for i in curl wget git cmake snapd; do
+        sudo apt-get -y install $i
+done
 
 for choice in $choices
 do
         case $choice in
-                1)
-                        blue Now installing Node & npm...
+                vim)
+                        sudo apt -y install vim
+                        ;;
+                node)
                         curl -sL https://deb.nodesource.com/setup_9.x -o nodesource_setup.sh
                         yes "" | bash nodesource_setup.sh
                         sudo apt install -y nodejs
+                        sudo apt install -y npm
+                        ;;
+                go)
+                        sudo apt -y install golang-go
+                        ;;
+                rust)
+                        sudo apt -y install rustc
+                        ;;
+                java)
+                        sudo apt -y install default-jdk
+                        ;;
+                pipenv)
+                        pip3 install pipenv
+                        ;;
+                virtualenv)
+                        pip3 install virtualenv
+                        ;;
+                yarn)
                         sudo apt install -y yarn
                         ;;
-                2)
-                        blue Now installing the powerline fonts...
-                        sudo apt install -y fonts-powerline
-                        ;;
-                3)
-                        blue Now installing vim...
+                vim)
                         sudo apt install -y vim
                         # Getting my config file
-                        $(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/.vimrc -O ~/.vimrc)
+                        $(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/.vimrc -O ~/.vimrc)
                         # Create the required directories
                         mkdir -p "$home/.vim" "$home/.vim/autoload" "$home/.vim/bundle" "$home/.vim/colors"
                         # Install all plugins
@@ -80,78 +147,24 @@ do
                         cp "$home/.vim/bundle/onedark.vim/autoload/onedark.vim" "$home/.vim/autoload/"
                         cp "$home/.vim/bundle/onedark.vim/colors/onedark.vim" "$home/.vim/colors/"
                         # Autoformat tools
-                        sudo apt install -y astyle # Source code indenter for C, C++, Objective-C, C#, and Java
-                        sudo apt-get install python-autopep8 # Python formatter
-                        sudo pip install yapf
+                        sudo apt -y install astyle # Source code indenter for C, C++, Objective-C, C#, and Java
+                        sudo apt -y install python-autopep8 # Python formatter
+                        pip3 install yapf
                         npm install -g js-beautify
                         npm install -g typescript-formatter
-                        sudo apt-get install tidy
+                        sudo apt -y install tidy
                         # Vim autocomplete
                         cd "$home/.vim/bundle/YouCompleteMe"
                         ./install.py
+                        cd
                         ;;
-                4)
-                        blue Now installing zsh...
-                        # Install zsh
-                        sudo apt install -y zsh
-                        # Change shell
-                        chsh -s $(which zsh)
-                        # Install oh-my-zsh
-                        sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-                        # Install zsh-syntax-highlighting
-                        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-                        # Install zsh-autosuggestions
-                        git clone git://github.com/zsh-users/zsh-autosuggestions "$home/.oh-my-zsh/plugins/zsh-autosuggestions"
-                        # My zsh config
-                        $(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/.zshrc -O "$home/.zshrc")
-                        sed -i 's/stefan/'"$USER"'/g' ~/.zshrc
-                        chmod -R 755 /usr/local/share/zsh/site-functions
-                        # Color scheme
-                        wget -O gogh https://git.io/vQgMr && chmod +x gogh && echo 03 | ./gogh && rm gogh
-                        # Fix permissions
-                        sudo chmod -R 755 /usr/local/share/zsh/site-functions
-                        # Install ZSH Spaceship theme
-                        git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
-                        ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-                        ;;
-                5)
-                        blue Installing themes...
-                        sudo add-apt-repository -y ppa:daniruiz/flat-remix
-                        sudo apt update -y
-                        sudo apt install -y flat-remix-gnome arc-themes flat-remix gnome-tweak-tool
-                        ;;
-                6)
-                        blue Installing gimp...
-                        sudo apt install -y gimp
-                        ;;
-                7)
-                        blue Installing spotify...
-                        sudo snap install spotify
-                        ;;
-                8)
-                        blue Installing Virtualbox...
-                        sudo apt install -y virtualbox virtualbox-guest-additions-iso
-                        sudo adduser x vboxusers
-                        ;;
-                9)
-                        blue Installing filezilla...
-                        sudo apt install -y filezilla
-                        ;;
-                10)
-                        blue Installing chrome...
-                        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-                        echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
-                        sudo apt -y update
-                        sudo apt-get -y install google-chrome-stable
-                        ;;
-                11)
-                        blue Installing VS Code...
+                code)
                         curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
                         sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
                         sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-                        sudo apt update -y
+                        sudo apt -y update
                         sudo apt install -y code
-                        python -m pip install -U autopep8
+                        pip3 install -U autopep8
                         code --install-extension formulahendry.auto-close-tag
                         code --install-extension formulahendry.auto-rename-tag
                         code --install-extension mgmcdermott.vscode-language-babel
@@ -176,50 +189,86 @@ do
                         code --install-extension eg2.tslint
                         code --install-extension ms-python.python
                         mkdir -p ~/.config/Code/User/settings.json
-                        $(wget -q https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/settings.json -O $HOME/.config/Code/User/settings.json)
+                        $(wget -q https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/settings.json -O $HOME/.config/Code/User/settings.json)
                         ;;
-                12)
-                        blue Installing headset software...
-                        sudo apt install -y pulseaudio-bluetooth
-                        ;;
-                13)
-                        blue Installing firefox...
-                        sudo apt install -y firefox
-                        ;;
-                14)
-                        blue Installing sway...
-                        sudo add-apt-repository ppa:s.noack/ppa
+                atom)
+                        sudo add-apt-repository -y ppa:webupd8team/atom
                         sudo apt -y update
-                        sudo apt -y install sway
-                        mkdir ~/.config/sway
-                        $(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/files/config -O "$home/.config/sway/config")
-                        sudo apt install -y j4-dmenu-desktop
+                        sudo apt -y install atom
                         ;;
-                15)
-                        blue Installing livedown...
-                        npm install -g livedown
+                reccomended)
+                        for i in htop fortune dconf-cli build-essential cmake python-dev python3-dev snapd gparted linux-headers-generic ranger python3-pip xclip; do
+                                sudo apt-get -y install $i
+                        done
                         ;;
-                16)
-                        blue Installing Ubuntu extras...
-                        sudo apt install ubuntu-restricted-extras -y
+                gimp)
+                        sudo apt -y install gimp
                         ;;
-                17)
-                        blue Installing ncdu...
+                spotify)
+                        snap install spotify
+                        ;;
+                filezilla)
+                        sudo apt -y install filezilla
+                        ;;
+                virtualbox )
+                        sudo apt -y install virtualbox virtualbox-guest-additions-iso
+                        ;;
+                chrome)
+                        wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+                        echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
+                        sudo apt -y update
+                        sudo apt -y install google-chrome-stable
+                        ;;
+                firefox)
+                        sudo apt -y install firefox
+                        ;;
+                pulseaudio)
+                        sudo apt -y install pulseaudio-bluetooth
+                        ;;
+                blender)
+                        sudo apt -y install blender
+                        ;;
+                ncdu)
                         sudo apt -y install ncdu
                         ;;
-                18)
-                        blue Installing fish...
-                        sudo apt install fish
+                zsh)
+                        sudo apt -y install zsh
+                        chsh -s $(which zsh)
+                        # Install oh-my-zsh
+                        exit | sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+                        # Install zsh-syntax-highlighting
+                        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+                        # Install zsh-autosuggestions
+                        git clone git://github.com/zsh-users/zsh-autosuggestions "$home/.oh-my-zsh/plugins/zsh-autosuggestions"
+                        # My zsh config
+                        $(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/dotfiles/files/.zshrc -O "$home/.zshrc")
+                        sed -i 's/stefan/'"$USER"'/g' ~/.zshrc
+                        chmod -R 755 /usr/local/share/zsh/site-functions
+                        # Color scheme
+                        wget -O gogh https://git.io/vQgMr && chmod +x gogh && echo 03 | ./gogh && rm gogh
+                        # Fix permissions
+                        sudo chmod -R 755 /usr/local/share/zsh/site-functions
+                        # Install ZSH Spaceship theme
+                        git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
+                        ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+                        ;;
+                fish)
+                        sudo apt -y install fish
                         curl -L https://get.oh-my.fish | fish
                         omf install https://github.com/jhillyerd/plugin-git
+                        ;;
+                powerline)
+                        sudo apt -y install fonts-powerline
+                        ;;
+                extras)
+                        sudo apt -y install ubuntu-restricted-extras
+                        ;;
+                *)
+                        ;;
         esac
 done
 
-sudo apt autoremove -y
+sudo apt -y update && sudo apt -y upgrade && sudo apt -y autoremove
 
-dialog --title "Done!" --msgbox "All done, the last step is to logout. Make sure that you set a powerline font for your terminal. Also, for autocomplete to work properly for your language, check out https://github.com/Valloric/YouCompleteMe/#ubuntu-linux-x64 and install the stuff that you want to use." 12 80
-clear
-
-blue Waiting 10 seconds and then logging out...
-sleep 10
-gnome-session-quit
+dialog --msgbox "Done! Log out for all changes to take effect." 10 25
+quit
