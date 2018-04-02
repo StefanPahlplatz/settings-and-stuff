@@ -168,12 +168,16 @@ all_programs = {**prog_lang, **prog_tools, **programs, **shells, **fonts}
 snap_list = []
 npm_list = []
 manual_list = []
+errors = []
 
 for installation_name, program in all_programs.items():
     for program_name in all_choices:
         if program.name == program_name:
             if program.how == How.APT:
-                cache[installation_name].mark_install()
+                try:
+                    cache[installation_name].mark_install()
+                except KeyError:
+                    errors.append("- Couldn't install {}".format(program_name))
             elif program.how == How.SNAP:
                 snap_list.append(installation_name)
             elif program.how == How.NPM:
@@ -273,5 +277,6 @@ if 'zsh' in all_choices:
 if 'vim' in all_choices:
     call(["./vim-install.sh"])
 
+d.msgbox("The script encountered the following errors:\n\n{}".format("\n".join(errors))
 d.msgbox("Done! Log out to apply all changes.")
 quit()
