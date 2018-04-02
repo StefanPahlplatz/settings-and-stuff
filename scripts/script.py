@@ -132,8 +132,6 @@ try:
             shell = 'zsh'
         elif main_shell == 1:
             shell = 'fish'
-    print(shell)
-    sys.exit()
 except IndexError:
     pass
 
