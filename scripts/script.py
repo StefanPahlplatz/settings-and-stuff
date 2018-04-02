@@ -244,6 +244,14 @@ if 'Fish' in all_choices:
     os.system("curl -L https://get.oh-my.fish | fish")
     os.system("omf install https://github.com/jhillyerd/plugin-git")
 
+
+if 'Node & NPM' in all_choices:
+    call(split("mkdir ~/.npm-global"))
+    call(split("npm config set prefix '~/.npm-global'"))
+    with open("~/.profile", "a") as profile_file:
+        profile_file.write("export PATH=~/.npm-global/bin:$PATH")
+    call(split("source ~/.profile"))
+
 if 'ZSH' in all_choices:
     call(split("sudo apt -y install git wget"))
 
@@ -277,7 +285,7 @@ if 'ZSH' in all_choices:
 
 if 'Vim' in all_choices:
     script = ROOT + "/scripts/vim-install.sh"
-    call(split("sudo apt -y install wget curl"))
+    call(split("sudo apt -y install wget curl cmake"))
     call(["chmod", "+x", script])
     call(["sh", script])
 
