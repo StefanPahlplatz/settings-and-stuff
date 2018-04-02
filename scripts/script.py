@@ -73,7 +73,7 @@ d.msgbox(
 Programming languages menu
 """
 prog_lang = {
-    'go': Program('Go', How.APT),
+    'golang-go': Program('Go', How.APT),
     'nodejs npm': Program('Node & NPM', How.APT),
     'rustc': Program('Rust', How.APT),
     'default-jdk': Program('Java', How.APT),
@@ -277,8 +277,9 @@ if 'zsh' in all_choices:
         'ln -s ~/oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme')
 
 if 'vim' in all_choices:
-    call(["./vim-install.sh"])
+    call(["./scripts/vim-install.sh"])
 
-d.msgbox("The script encountered the following errors:\n\n{}".format("\n".join(errors)))
+if errors:
+    d.msgbox("The script encountered the following errors:\n\n{}".format("\n".join(errors)))
 d.msgbox("Done! Log out to apply all changes.")
 quit()
