@@ -116,7 +116,7 @@ do
                         curl -sL https://deb.nodesource.com/setup_9.x -o nodesource_setup.sh
                         yes "" | bash nodesource_setup.sh
                         sudo apt -y install nodejs
-                        sudo apt -y instal npm
+                        sudo apt -y install npm
                         mkdir ~/.npm-global
                         npm config set prefix '~/.npm-global'
                         echo "export PATH=~/.npm-global/bin:$PATH" >> ~/.profile
