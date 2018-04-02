@@ -247,10 +247,9 @@ if 'Fish' in all_choices:
 
 if 'Node & NPM' in all_choices:
     call(split("mkdir ~/.npm-global"))
-    call(split("npm config set prefix '~/.npm-global'"))
+    call(split("npm config set prefix ~/.npm-global"))
     with open(HOME + "/.profile", "a") as profile_file:
-        profile_file.write("export PATH=~/.npm-global/bin:$PATH")
-    call(split("source ~/.profile"))
+        profile_file.write("export PATH=$HOME/.npm-global/bin:$PATH")
 
 if 'ZSH' in all_choices:
     call(split("sudo apt -y install git wget"))
