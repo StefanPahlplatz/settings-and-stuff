@@ -45,11 +45,6 @@ alias sv='source ~/.vimrc'
 alias freespace='ncdu'
 
 
-# NPM global path
-NPM_CONFIG_PREFIX=~/.npm-global
-export PATH=$PATH:/home/stefan/.npm-global/bin          # NPM package path
-
-
 # ZSH cache
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
