@@ -77,7 +77,7 @@ choices="$choices $("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
 check_quit
 
 # Shell
-cmd=(dialog --radiolist "Select your shell" 22 76 16)
+cmd=(dialog --radiolist "Select your shell (No idea which one to pick? Pick fish)" 22 76 16)
 options=(
 "zsh" "ZSH" on
 "fish" "Fish" off
@@ -90,6 +90,7 @@ check_quit
 cmd=(dialog --separate-output --checklist "Select additional fonts" 22 76 16)
 options=(
 "powerline" "Powerline fonts" on
+"pfonts" "Top Programming Fonts" off
 "extras" "Ubuntu Restricted Extras" off
 )
 choices="$choices $("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
@@ -102,16 +103,13 @@ clear
 sudo apt -y update && sudo apt -y upgrade
 
 # Install required applications
-for i in curl wget git cmake snapd; do
+for i in curl wget git cmake snapd unzip; do
         sudo apt-get -y install $i
 done
 
 for choice in $choices
 do
         case $choice in
-                vim)
-                        sudo apt -y install vim
-                        ;;
                 node)
                         curl -sL https://deb.nodesource.com/setup_9.x -o nodesource_setup.sh
                         yes "" | bash nodesource_setup.sh
@@ -161,6 +159,11 @@ do
                         cd "$home/.vim/bundle/YouCompleteMe"
                         ./install.py
                         cd
+                        # Install a patched font
+                        wget https://github.com/ryanoasis/nerd-fonts/releases/download/v1.2.0/SourceCodePro.zip -O fonts.zip
+                        mkdir ~/.fonts
+                        unzip fonts.zip -d ~/.fonts
+                        fc-cache -f -v
                         ;;
                 code)
                         curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
@@ -263,6 +266,9 @@ do
                         ;;
                 powerline)
                         sudo apt -y install fonts-powerline
+                        ;;
+                pfonts)
+                        curl -L https://github.com/hbin/top-programming-fonts/raw/master/install.sh | bash
                         ;;
                 extras)
                         sudo apt -y install ubuntu-restricted-extras
