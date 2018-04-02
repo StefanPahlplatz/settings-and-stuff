@@ -115,8 +115,12 @@ do
                 node)
                         curl -sL https://deb.nodesource.com/setup_9.x -o nodesource_setup.sh
                         yes "" | bash nodesource_setup.sh
-                        sudo apt install -y nodejs
-                        sudo apt install -y npm
+                        sudo apt -y install nodejs
+                        sudo apt -y instal npm
+                        mkdir ~/.npm-global
+                        npm config set prefix '~/.npm-global'
+                        echo "export PATH=~/.npm-global/bin:$PATH" >> ~/.profile
+                        source ~/.profile
                         ;;
                 go)
                         sudo apt -y install golang-go
