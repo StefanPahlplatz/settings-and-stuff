@@ -175,7 +175,9 @@ for installation_name, program in all_programs.items():
         if program.name == program_name:
             if program.how == How.APT:
                 try:
-                    cache[installation_name].mark_install()
+                    p = installation_name.split()
+                    for i in p:
+                        cache[i].mark_install()
                 except KeyError:
                     errors.append("- Couldn't install {}".format(program_name))
             elif program.how == How.SNAP:
