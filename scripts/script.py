@@ -30,15 +30,9 @@ class How(Enum):
 
 HOME = expanduser("~")
 USER = getpass.getuser()
-ROOT = getcwd()
-# ZSHRC =
-# "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/.zshrc"
+ROOT = getcwd() + "/setup"
 ZSHRC = ROOT + "/dotfiles/.zshrc"
-# VIMRC =
-# "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/.vimrc"
 VIMRC = ROOT + "/dotfiles/.vimrc"
-# VSCODE_CONFIG =
-# "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/settings.json"
 VSCODE_CONFIG = ROOT + "/dotfiles/settings.json"
 
 
