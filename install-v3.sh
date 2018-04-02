@@ -32,7 +32,7 @@ home=$(eval echo "~$name")
 cmd=(dialog --separate-output --checklist "Select your programming languages" 22 76 16)
 options=(
 "node" "Node 9.x & npm" on
-"go" "Golang" on
+"go" "Golang" off
 "rust" "Rust" off
 "java" "Java JDK" off
 )
@@ -42,7 +42,7 @@ check_quit
 # Programming tools
 cmd=(dialog --separate-output --checklist "Select your programming tools" 22 76 16)
 options=(
-"pipenv" "Pipenv" on
+"pipenv" "Pipenv" off
 "virtualenv" "Virtualenv" off
 "yarn" "Yarn" off
 )
@@ -52,8 +52,8 @@ check_quit
 # Editors
 cmd=(dialog --separate-output --checklist "Select your editors" 22 76 16)
 options=(
-"vim" "Vim" on
-"code" "VS Code" on
+"vim" "Vim" off
+"code" "VS Code" off
 "atom" "Atom" off
 )
 choices="$choices $("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
@@ -64,13 +64,14 @@ cmd=(dialog --separate-output --checklist "Select your programs" 22 76 16)
 options=(
 "reccomended" "Collection of utilities & libraries" on
 "gimp" "Gimp" off
-"spotify" "Spotify" on
+"spotify" "Spotify" off
 "filezilla" "Filezilla" off
-"virtualbox" "Virtualbox" on
-"chrome" "Chrome" on
-"firefox" "Firefox" on
-"pulseaudio" "Pulseaudio" on
-"blender" "Blender" on
+"virtualbox" "Virtualbox" off
+"chrome" "Chrome" off
+"firefox" "Firefox" off
+"pulseaudio" "Pulseaudio" off
+"blender" "Blender" off
+"ncdu" "View free space on your disk" off
 )
 choices="$choices $("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
 check_quit
@@ -80,12 +81,13 @@ cmd=(dialog --radiolist "Select your shell" 22 76 16)
 options=(
 "zsh" "ZSH" on
 "fish" "Fish" off
+"default" "Default" off
 )
 choices="$choices $("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
 check_quit
 
 # Fonts
-cmd=(dialog --radiolist "Select additional fonts" 22 76 16)
+cmd=(dialog --separate-output --checklist "Select additional fonts" 22 76 16)
 options=(
 "powerline" "Powerline fonts" on
 "extras" "Ubuntu Restricted Extras" off
@@ -94,8 +96,15 @@ choices="$choices $("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
 check_quit
 
 dialog --msgbox "Let's start" 6 18
+clear
 
+# Update system
 sudo apt -y update && sudo apt -y upgrade
+
+# Install required applications
+for i in curl wget git cmake snapd; do
+        sudo apt-get -y install $i
+done
 
 for choice in $choices
 do
@@ -188,7 +197,7 @@ do
                         sudo apt -y install atom
                         ;;
                 reccomended)
-                        for i in htop git fortune dconf-cli curl build-essential cmake python-dev python3-dev snapd gparted linux-headers-generic ranger python3-pip xclip; do
+                        for i in htop fortune dconf-cli build-essential cmake python-dev python3-dev snapd gparted linux-headers-generic ranger python3-pip xclip; do
                                 sudo apt-get -y install $i
                         done
                         ;;
@@ -219,11 +228,14 @@ do
                 blender)
                         sudo apt -y install blender
                         ;;
+                ncdu)
+                        sudo apt -y install ncdu
+                        ;;
                 zsh)
-                        sudo apt install -y zsh
+                        sudo apt -y install zsh
                         chsh -s $(which zsh)
                         # Install oh-my-zsh
-                        sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+                        exit | sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
                         # Install zsh-syntax-highlighting
                         git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
                         # Install zsh-autosuggestions
@@ -240,8 +252,23 @@ do
                         git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
                         ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
                         ;;
+                fish)
+                        sudo apt -y install fish
+                        curl -L https://get.oh-my.fish | fish
+                        omf install https://github.com/jhillyerd/plugin-git
+                        ;;
+                powerline)
+                        sudo apt -y install fonts-powerline
+                        ;;
+                extras)
+                        sudo apt -y install ubuntu-restricted-extras
+                        ;;
+                *)
+                        ;;
         esac
 done
 
-echo $choices > /tmp/.choices
-echo $choices
+sudo apt -y update && sudo apt -y upgrade && sudo apt -y autoremove
+
+dialog --msgbox "Done! Log out for all changes to take effect." 10 25
+quit
