@@ -277,7 +277,7 @@ if 'ZSH' in all_choices:
 
 if 'Vim' in all_choices:
     script = ROOT + "/scripts/vim-install.sh"
-    call(split("sudo apt install wget curl"))
+    call(split("sudo apt -y install wget curl"))
     call(["chmod", "+x", script])
     call(["sh", script])
 
