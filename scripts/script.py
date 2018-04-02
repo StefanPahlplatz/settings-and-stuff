@@ -117,7 +117,7 @@ Shell
 """
 shells = {
     'zsh': Program('ZSH', How.APT),
-    'fish': Program('FISH', How.APT)
+    'fish': Program('Fish', How.APT)
 }
 shell_choices = ask_checklist(
     "Select which shells you want to install", shells.values())
@@ -238,11 +238,11 @@ if manual_list:
     spinner.stop()
 
 print("Post install script")
-if 'fish' in all_choices:
+if 'Fish' in all_choices:
     os.system("curl -L https://get.oh-my.fish | fish")
     os.system("omf install https://github.com/jhillyerd/plugin-git")
 
-if 'zsh' in all_choices:
+if 'ZSH' in all_choices:
     call(split("sudo apt -y install git wget"))
 
     # Install oh-my-zsh
@@ -276,7 +276,7 @@ if 'zsh' in all_choices:
     os.system(
         'ln -s ~/oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme')
 
-if 'vim' in all_choices:
+if 'Vim' in all_choices:
     call(["./scripts/vim-install.sh"])
 
 if errors:
