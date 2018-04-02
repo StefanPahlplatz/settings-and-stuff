@@ -12,6 +12,7 @@ import urllib.request
 from collections import namedtuple
 from enum import Enum
 from subprocess import call
+from os import path, getcwd, chdir
 from os.path import expanduser
 import getpass
 
@@ -27,11 +28,18 @@ class How(Enum):
     NPM = 3
     MANUAL = 4
 
-ZSHRC = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/.zshrc"
-VIMRC = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/.vimrc"
-VSCODE_CONFIG = "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/settings.json"
 HOME = expanduser("~")
 USER = getpass.getuser()
+ROOT = getcwd()
+# ZSHRC =
+# "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/.zshrc"
+ZSHRC = ROOT + "/dotfiles/.zshrc"
+# VIMRC =
+# "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/.vimrc"
+VIMRC = ROOT + "/dotfiles/.vimrc"
+# VSCODE_CONFIG =
+# "https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/master/dotfiles/settings.json"
+VSCODE_CONFIG = ROOT + "/dotfiles/settings.json"
 
 
 d = Dialog(dialog="dialog", autowidgetsize=True)
@@ -254,11 +262,8 @@ if 'ZSH' in all_choices:
         split("git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"))
     call(split("sudo apt -y install zsh-syntax-highlighting"))
 
-    # Download my config
-    urllib.request.urlretrieve(ZSHRC, ".zshrc")
-
     # Replace stefan with the current user
-    with open(".zshrc", "rt") as fin:
+    with open(ZSHRC, "rt") as fin:
         with open("zsh", "wt") as fout:
             for line in fin:
                 fout.write(line.replace('stefan', USER))
@@ -277,9 +282,12 @@ if 'ZSH' in all_choices:
         'ln -s ~/oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme')
 
 if 'Vim' in all_choices:
-    call(["./scripts/vim-install.sh"])
+    script = ROOT + "/scripts/vim-install.sh"
+    call(["chmod", "+x", script])
+    call(["sh", script])
 
 if errors:
-    d.msgbox("The script encountered the following errors:\n\n{}".format("\n".join(errors)))
+    d.msgbox(
+        "The script encountered the following errors:\n\n{}".format("\n".join(errors)))
 d.msgbox("Done! Log out to apply all changes.")
 quit()
