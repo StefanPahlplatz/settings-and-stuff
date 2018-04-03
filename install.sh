@@ -63,6 +63,7 @@ check_quit
 cmd=(dialog --separate-output --checklist "Select your programs" 22 76 16)
 options=(
 "reccomended" "Collection of utilities & libraries" on
+"libreoffice" "Libreoffice" off
 "gimp" "Gimp" off
 "spotify" "Spotify" off
 "filezilla" "Filezilla" off
@@ -72,6 +73,12 @@ options=(
 "pulseaudio" "Pulseaudio" off
 "blender" "Blender" off
 "ncdu" "View free space on your disk" off
+"obs" "OBS Studio" off
+"slack" "Slack" off
+"skype" "Skype" off
+"gitkraken" "Gitkraken" off
+"discord" "Discord" off
+"vectr" "Vectr graphics editor" off
 )
 choices="$choices $("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
 check_quit
@@ -164,6 +171,8 @@ do
                         mkdir ~/.fonts
                         unzip fonts.zip -d ~/.fonts
                         fc-cache -f -v
+                        gconftool-2 --set /apps/gnome-terminal/profiles/Default/use_system_font --type=boolean false
+                        gconftool-2 --set /apps/gnome-terminal/profiles/Default/font --type string "SourceCodePro Nerd Font Mono Regular 11"
                         ;;
                 code)
                         curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
@@ -208,6 +217,9 @@ do
                                 sudo apt-get -y install $i
                         done
                         ;;
+                libreoffice)
+                        sudo apt -y install libreoffice
+                        ;;
                 gimp)
                         sudo apt -y install gimp
                         ;;
@@ -230,6 +242,7 @@ do
                         sudo apt -y install firefox
                         ;;
                 pulseaudio)
+                        sudo apt -y install pulseaudio
                         sudo apt -y install pulseaudio-bluetooth
                         ;;
                 blender)
@@ -238,9 +251,27 @@ do
                 ncdu)
                         sudo apt -y install ncdu
                         ;;
+                obs)
+                        snap install obs-studio
+                        ;;
+                slack)
+                        snap install slack
+                        ;;
+                skype)
+                        snap install skype
+                        ;;
+                gitkraken)
+                        snap install gitkraken
+                        ;;
+                discord)
+                        snap install discord
+                        ;;
+                vectr)
+                        snap install vectr
+                        ;;
                 zsh)
                         sudo apt -y install zsh
-                        chsh -s $(which zsh)
+                        sudo usermod -s $(which zsh)
                         # Install oh-my-zsh
                         exit | sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
                         # Install zsh-syntax-highlighting
@@ -263,6 +294,12 @@ do
                         sudo apt -y install fish
                         curl -L https://get.oh-my.fish | fish
                         omf install https://github.com/jhillyerd/plugin-git
+                        omf install bobthefish
+                        echo "set -g theme_nerd_fonts yes" >> ~/.config/fish/config.fish
+                        echo "set -g theme_date_format \"+%H:%M\"" >> ~/.config/fish/config.fish
+                        gconftool-2 --set /apps/gnome-terminal/profiles/Default/use_system_font --type=boolean false
+                        gconftool-2 --set /apps/gnome-terminal/profiles/Default/font --type string "SourceCodePro Nerd Font Mono Regular 11"
+                        sudo usermod -s $(which fish)
                         ;;
                 powerline)
                         sudo apt -y install fonts-powerline
