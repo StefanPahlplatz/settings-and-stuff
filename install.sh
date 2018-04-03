@@ -309,6 +309,7 @@ do
                         ;;
                 extras)
                         sudo apt -y install ubuntu-restricted-extras
+                        sudo apt install ttf-mscorefonts-installer
                         ;;
                 *)
                         ;;
