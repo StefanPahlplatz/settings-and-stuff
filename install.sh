@@ -279,7 +279,7 @@ do
                         # Install zsh-autosuggestions
                         git clone git://github.com/zsh-users/zsh-autosuggestions "$home/.oh-my-zsh/plugins/zsh-autosuggestions"
                         # My zsh config
-                        $(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/dotfiles/files/.zshrc -O "$home/.zshrc")
+                        $(wget https://raw.githubusercontent.com/StefanPahlplatz/settings-and-stuff/dotfiles/.zshrc -O "$home/.zshrc")
                         sed -i 's/stefan/'"$USER"'/g' ~/.zshrc
                         chmod -R 755 /usr/local/share/zsh/site-functions
                         # Color scheme
@@ -289,6 +289,7 @@ do
                         # Install ZSH Spaceship theme
                         git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
                         ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+			sudo usermod -s /usr/bin/zsh $USER
                         ;;
                 fish)
                         sudo apt -y install fish
