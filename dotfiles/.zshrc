@@ -32,6 +32,10 @@ function lazygit() {
     git push
 }
 
+function copy() {
+    xclip -sel clip < "$1"
+}
+
 
 # Aliases
 alias PATH='echo $PATH | tr ":" "\n" | nl | sort'
