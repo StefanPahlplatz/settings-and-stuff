@@ -9,4 +9,9 @@ chmod +x install.sh
 ./install.sh
 ```
 
-
+## Server installation
+```
+wget -O install.sh 
+chmod +x install.sh
+./install.sh
+```
