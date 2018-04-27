@@ -11,7 +11,7 @@ chmod +x install.sh
 
 ## Server installation
 ```
-wget -O install.sh 
+wget -O install.sh https://goo.gl/8LZYox
 chmod +x install.sh
 ./install.sh
 ```
