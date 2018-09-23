@@ -1,6 +1,7 @@
 # Path to the oh-my-zsh installation.
 export ZSH=/home/stefan/.oh-my-zsh
 
+bindkey '^H' backward-kill-word
 
 # ZSH settings
 ZSH_THEME="spaceship"
@@ -13,7 +14,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
 
 
 # Plugins
-plugins=(git command-not-found common-aliases zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git command-not-found common-aliases zsh-autosuggestions zsh-syntax-highlighting docker docker-compose)
 
 
 # Settings
@@ -23,7 +24,7 @@ export EDITOR='vim'
 export GIT_EDITOR='vim'
 export ECTO_EDITOR=$EDITOR
 export SSH_KEY_PATH='~/.ssh/rsa_id'
-export ANDROID_HOME='/hdd/AndroidSDK'
+
 
 # Functions
 function lazygit() {
@@ -44,6 +45,11 @@ function up() {
         sudo snap refresh
 }
 
+function o() {
+        xdg-open "$1"
+}
+
+
 # Aliases
 alias PATH='echo $PATH | tr ":" "\n" | nl | sort'
 alias wifi='nmtui'
@@ -54,7 +60,8 @@ alias sz='source ~/.zshrc'
 alias sv='source ~/.vimrc'
 alias freespace='ncdu'
 alias csc='mono-csc'
-
+alias s='sudo systemctl'
+alias py='python3'
 
 # ZSH cache
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
@@ -66,6 +73,5 @@ fi
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-alias ls='exa'
-alias la='exa -la'
+# Use trash-cli instead of rm
 alias rm='echo "This is not the command you are looking for. Use r instead"; false'
